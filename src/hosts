@@ -1,0 +1,13 @@
+---
+client1:
+  hosts:
+    ubuntu-server:
+      ansible_host: ubuntu-server
+      ansible_user: ansible_user
+      ansible_port: 22
+      ansible_password: admin
+      ansible_become: yes
+      ansible_become_method: sudo
+  vars:
+    nginx_user: www-data
+    virtual_domain: ubuntu-server

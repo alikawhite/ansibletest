@@ -1,0 +1,12 @@
+---
+- hosts: ubuntu-server
+  become:
+    true
+  become_method:
+    sudo
+  become_user:
+    root
+  roles:
+   - nginx
+  vars:
+    nginx_user: www-data

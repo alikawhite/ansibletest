@@ -1,0 +1,33 @@
+---
+- name: Update the APT package index
+  apt:
+    update_cache: yes
+
+- name: Install Nginx Web Server on Ubuntu
+  apt:
+    name=nginx
+    state=latest
+  notify:
+    - nginx systemd
+  become: yes
+
+- name: Replace nginx.conf
+  template:
+    src=templates/nginx.conf
+    dest=/etc/nginx/nginx.conf
+  notify: restart nginx
+
+
+- name: Create home directory for www
+  file:
+    path: /var/www/{{ virtual_domain }}
+    state: directory
+
+- name: Add virtual domain in NGINX for Deb
+  vars:
+    fastcgi_pass_path: /run/php/php7.4-fpm.sock
+  template:
+    src=templates/nginx_vhosts.conf
+    dest=/etc/nginx/sites-enabled/{{ virtual_domain }}.conf
+  notify:
+    - restart nginx
